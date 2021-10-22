@@ -1,0 +1,2 @@
+map_topic_processing
+-DCATKIN_DEVEL_PREFIX=/home/eh420/workspace/catkin_ws_map-processing/devel -DCMAKE_INSTALL_PREFIX=/home/eh420/workspace/catkin_ws_map-processing/install -G Unix Makefiles

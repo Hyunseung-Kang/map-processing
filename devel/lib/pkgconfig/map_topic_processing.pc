@@ -1,0 +1,8 @@
+prefix=/home/eh420/workspace/catkin_ws_map-processing/devel
+
+Name: map_topic_processing
+Description: Description of map_topic_processing
+Version: 0.0.0
+Cflags: -I/home/eh420/workspace/catkin_ws_map-processing/src/map_topic_processing/include
+Libs: -L${prefix}/lib -lopencv
+Requires: 

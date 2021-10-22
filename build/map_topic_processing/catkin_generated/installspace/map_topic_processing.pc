@@ -1,0 +1,8 @@
+prefix=/home/eh420/workspace/catkin_ws_map-processing/install
+
+Name: map_topic_processing
+Description: Description of map_topic_processing
+Version: 0.0.0
+Cflags: -I${prefix}/include
+Libs: -L${prefix}/lib -lopencv
+Requires: 
