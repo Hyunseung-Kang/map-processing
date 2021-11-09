@@ -283,6 +283,19 @@ gtest_main/fast:
 .PHONY : gtest_main/fast
 
 #=============================================================================
+# Target rules for targets named marker_publisher
+
+# Build rule for target.
+marker_publisher: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 marker_publisher
+.PHONY : marker_publisher
+
+# fast build rule for target.
+marker_publisher/fast:
+	$(MAKE) -f map_topic_processing/CMakeFiles/marker_publisher.dir/build.make map_topic_processing/CMakeFiles/marker_publisher.dir/build
+.PHONY : marker_publisher/fast
+
+#=============================================================================
 # Target rules for targets named geometry_msgs_generate_messages_py
 
 # Build rule for target.
@@ -309,6 +322,19 @@ geometry_msgs_generate_messages_nodejs/fast:
 .PHONY : geometry_msgs_generate_messages_nodejs/fast
 
 #=============================================================================
+# Target rules for targets named map_processing_flip
+
+# Build rule for target.
+map_processing_flip: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 map_processing_flip
+.PHONY : map_processing_flip
+
+# fast build rule for target.
+map_processing_flip/fast:
+	$(MAKE) -f map_topic_processing/CMakeFiles/map_processing_flip.dir/build.make map_topic_processing/CMakeFiles/map_processing_flip.dir/build
+.PHONY : map_processing_flip/fast
+
+#=============================================================================
 # Target rules for targets named std_msgs_generate_messages_py
 
 # Build rule for target.
@@ -320,6 +346,19 @@ std_msgs_generate_messages_py: cmake_check_build_system
 std_msgs_generate_messages_py/fast:
 	$(MAKE) -f map_topic_processing/CMakeFiles/std_msgs_generate_messages_py.dir/build.make map_topic_processing/CMakeFiles/std_msgs_generate_messages_py.dir/build
 .PHONY : std_msgs_generate_messages_py/fast
+
+#=============================================================================
+# Target rules for targets named position_processing
+
+# Build rule for target.
+position_processing: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 position_processing
+.PHONY : position_processing
+
+# fast build rule for target.
+position_processing/fast:
+	$(MAKE) -f map_topic_processing/CMakeFiles/position_processing.dir/build.make map_topic_processing/CMakeFiles/position_processing.dir/build
+.PHONY : position_processing/fast
 
 #=============================================================================
 # Target rules for targets named sensor_msgs_generate_messages_py
@@ -372,6 +411,19 @@ rosgraph_msgs_generate_messages_nodejs: cmake_check_build_system
 rosgraph_msgs_generate_messages_nodejs/fast:
 	$(MAKE) -f map_topic_processing/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/build.make map_topic_processing/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/build
 .PHONY : rosgraph_msgs_generate_messages_nodejs/fast
+
+#=============================================================================
+# Target rules for targets named localization
+
+# Build rule for target.
+localization: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 localization
+.PHONY : localization
+
+# fast build rule for target.
+localization/fast:
+	$(MAKE) -f map_topic_processing/CMakeFiles/localization.dir/build.make map_topic_processing/CMakeFiles/localization.dir/build
+.PHONY : localization/fast
 
 #=============================================================================
 # Target rules for targets named image_processing
@@ -655,13 +707,17 @@ help:
 	@echo "... gmock_main"
 	@echo "... gtest"
 	@echo "... gtest_main"
+	@echo "... marker_publisher"
 	@echo "... geometry_msgs_generate_messages_py"
 	@echo "... geometry_msgs_generate_messages_nodejs"
+	@echo "... map_processing_flip"
 	@echo "... std_msgs_generate_messages_py"
+	@echo "... position_processing"
 	@echo "... sensor_msgs_generate_messages_py"
 	@echo "... roscpp_generate_messages_py"
 	@echo "... rosgraph_msgs_generate_messages_eus"
 	@echo "... rosgraph_msgs_generate_messages_nodejs"
+	@echo "... localization"
 	@echo "... image_processing"
 	@echo "... geometry_msgs_generate_messages_eus"
 	@echo "... roscpp_generate_messages_cpp"

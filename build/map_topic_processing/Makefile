@@ -79,17 +79,6 @@ rebuild_cache/fast: rebuild_cache
 
 .PHONY : rebuild_cache/fast
 
-# Special rule for the target edit_cache
-edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
-.PHONY : edit_cache
-
-# Special rule for the target edit_cache
-edit_cache/fast: edit_cache
-
-.PHONY : edit_cache/fast
-
 # Special rule for the target test
 test:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running tests..."
@@ -122,6 +111,17 @@ install/strip: preinstall
 install/strip/fast: install/strip
 
 .PHONY : install/strip/fast
+
+# Special rule for the target edit_cache
+edit_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
+	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+.PHONY : edit_cache
+
+# Special rule for the target edit_cache
+edit_cache/fast: edit_cache
+
+.PHONY : edit_cache/fast
 
 # Special rule for the target list_install_components
 list_install_components:
@@ -166,6 +166,21 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
+map_topic_processing/CMakeFiles/marker_publisher.dir/rule:
+	cd /home/eh420/workspace/catkin_ws_map-processing/build && $(MAKE) -f CMakeFiles/Makefile2 map_topic_processing/CMakeFiles/marker_publisher.dir/rule
+.PHONY : map_topic_processing/CMakeFiles/marker_publisher.dir/rule
+
+# Convenience name for target.
+marker_publisher: map_topic_processing/CMakeFiles/marker_publisher.dir/rule
+
+.PHONY : marker_publisher
+
+# fast build rule for target.
+marker_publisher/fast:
+	cd /home/eh420/workspace/catkin_ws_map-processing/build && $(MAKE) -f map_topic_processing/CMakeFiles/marker_publisher.dir/build.make map_topic_processing/CMakeFiles/marker_publisher.dir/build
+.PHONY : marker_publisher/fast
+
+# Convenience name for target.
 map_topic_processing/CMakeFiles/geometry_msgs_generate_messages_py.dir/rule:
 	cd /home/eh420/workspace/catkin_ws_map-processing/build && $(MAKE) -f CMakeFiles/Makefile2 map_topic_processing/CMakeFiles/geometry_msgs_generate_messages_py.dir/rule
 .PHONY : map_topic_processing/CMakeFiles/geometry_msgs_generate_messages_py.dir/rule
@@ -196,6 +211,21 @@ geometry_msgs_generate_messages_nodejs/fast:
 .PHONY : geometry_msgs_generate_messages_nodejs/fast
 
 # Convenience name for target.
+map_topic_processing/CMakeFiles/map_processing_flip.dir/rule:
+	cd /home/eh420/workspace/catkin_ws_map-processing/build && $(MAKE) -f CMakeFiles/Makefile2 map_topic_processing/CMakeFiles/map_processing_flip.dir/rule
+.PHONY : map_topic_processing/CMakeFiles/map_processing_flip.dir/rule
+
+# Convenience name for target.
+map_processing_flip: map_topic_processing/CMakeFiles/map_processing_flip.dir/rule
+
+.PHONY : map_processing_flip
+
+# fast build rule for target.
+map_processing_flip/fast:
+	cd /home/eh420/workspace/catkin_ws_map-processing/build && $(MAKE) -f map_topic_processing/CMakeFiles/map_processing_flip.dir/build.make map_topic_processing/CMakeFiles/map_processing_flip.dir/build
+.PHONY : map_processing_flip/fast
+
+# Convenience name for target.
 map_topic_processing/CMakeFiles/std_msgs_generate_messages_py.dir/rule:
 	cd /home/eh420/workspace/catkin_ws_map-processing/build && $(MAKE) -f CMakeFiles/Makefile2 map_topic_processing/CMakeFiles/std_msgs_generate_messages_py.dir/rule
 .PHONY : map_topic_processing/CMakeFiles/std_msgs_generate_messages_py.dir/rule
@@ -209,6 +239,21 @@ std_msgs_generate_messages_py: map_topic_processing/CMakeFiles/std_msgs_generate
 std_msgs_generate_messages_py/fast:
 	cd /home/eh420/workspace/catkin_ws_map-processing/build && $(MAKE) -f map_topic_processing/CMakeFiles/std_msgs_generate_messages_py.dir/build.make map_topic_processing/CMakeFiles/std_msgs_generate_messages_py.dir/build
 .PHONY : std_msgs_generate_messages_py/fast
+
+# Convenience name for target.
+map_topic_processing/CMakeFiles/position_processing.dir/rule:
+	cd /home/eh420/workspace/catkin_ws_map-processing/build && $(MAKE) -f CMakeFiles/Makefile2 map_topic_processing/CMakeFiles/position_processing.dir/rule
+.PHONY : map_topic_processing/CMakeFiles/position_processing.dir/rule
+
+# Convenience name for target.
+position_processing: map_topic_processing/CMakeFiles/position_processing.dir/rule
+
+.PHONY : position_processing
+
+# fast build rule for target.
+position_processing/fast:
+	cd /home/eh420/workspace/catkin_ws_map-processing/build && $(MAKE) -f map_topic_processing/CMakeFiles/position_processing.dir/build.make map_topic_processing/CMakeFiles/position_processing.dir/build
+.PHONY : position_processing/fast
 
 # Convenience name for target.
 map_topic_processing/CMakeFiles/sensor_msgs_generate_messages_py.dir/rule:
@@ -269,6 +314,21 @@ rosgraph_msgs_generate_messages_nodejs: map_topic_processing/CMakeFiles/rosgraph
 rosgraph_msgs_generate_messages_nodejs/fast:
 	cd /home/eh420/workspace/catkin_ws_map-processing/build && $(MAKE) -f map_topic_processing/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/build.make map_topic_processing/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/build
 .PHONY : rosgraph_msgs_generate_messages_nodejs/fast
+
+# Convenience name for target.
+map_topic_processing/CMakeFiles/localization.dir/rule:
+	cd /home/eh420/workspace/catkin_ws_map-processing/build && $(MAKE) -f CMakeFiles/Makefile2 map_topic_processing/CMakeFiles/localization.dir/rule
+.PHONY : map_topic_processing/CMakeFiles/localization.dir/rule
+
+# Convenience name for target.
+localization: map_topic_processing/CMakeFiles/localization.dir/rule
+
+.PHONY : localization
+
+# fast build rule for target.
+localization/fast:
+	cd /home/eh420/workspace/catkin_ws_map-processing/build && $(MAKE) -f map_topic_processing/CMakeFiles/localization.dir/build.make map_topic_processing/CMakeFiles/localization.dir/build
+.PHONY : localization/fast
 
 # Convenience name for target.
 map_topic_processing/CMakeFiles/image_processing.dir/rule:
@@ -597,6 +657,33 @@ src/image_processing.cpp.s:
 	cd /home/eh420/workspace/catkin_ws_map-processing/build && $(MAKE) -f map_topic_processing/CMakeFiles/image_processing.dir/build.make map_topic_processing/CMakeFiles/image_processing.dir/src/image_processing.cpp.s
 .PHONY : src/image_processing.cpp.s
 
+src/localization.o: src/localization.cpp.o
+
+.PHONY : src/localization.o
+
+# target to build an object file
+src/localization.cpp.o:
+	cd /home/eh420/workspace/catkin_ws_map-processing/build && $(MAKE) -f map_topic_processing/CMakeFiles/localization.dir/build.make map_topic_processing/CMakeFiles/localization.dir/src/localization.cpp.o
+.PHONY : src/localization.cpp.o
+
+src/localization.i: src/localization.cpp.i
+
+.PHONY : src/localization.i
+
+# target to preprocess a source file
+src/localization.cpp.i:
+	cd /home/eh420/workspace/catkin_ws_map-processing/build && $(MAKE) -f map_topic_processing/CMakeFiles/localization.dir/build.make map_topic_processing/CMakeFiles/localization.dir/src/localization.cpp.i
+.PHONY : src/localization.cpp.i
+
+src/localization.s: src/localization.cpp.s
+
+.PHONY : src/localization.s
+
+# target to generate assembly for a file
+src/localization.cpp.s:
+	cd /home/eh420/workspace/catkin_ws_map-processing/build && $(MAKE) -f map_topic_processing/CMakeFiles/localization.dir/build.make map_topic_processing/CMakeFiles/localization.dir/src/localization.cpp.s
+.PHONY : src/localization.cpp.s
+
 src/map_processing.o: src/map_processing.cpp.o
 
 .PHONY : src/map_processing.o
@@ -624,6 +711,87 @@ src/map_processing.cpp.s:
 	cd /home/eh420/workspace/catkin_ws_map-processing/build && $(MAKE) -f map_topic_processing/CMakeFiles/map_processing.dir/build.make map_topic_processing/CMakeFiles/map_processing.dir/src/map_processing.cpp.s
 .PHONY : src/map_processing.cpp.s
 
+src/map_processing_flip.o: src/map_processing_flip.cpp.o
+
+.PHONY : src/map_processing_flip.o
+
+# target to build an object file
+src/map_processing_flip.cpp.o:
+	cd /home/eh420/workspace/catkin_ws_map-processing/build && $(MAKE) -f map_topic_processing/CMakeFiles/map_processing_flip.dir/build.make map_topic_processing/CMakeFiles/map_processing_flip.dir/src/map_processing_flip.cpp.o
+.PHONY : src/map_processing_flip.cpp.o
+
+src/map_processing_flip.i: src/map_processing_flip.cpp.i
+
+.PHONY : src/map_processing_flip.i
+
+# target to preprocess a source file
+src/map_processing_flip.cpp.i:
+	cd /home/eh420/workspace/catkin_ws_map-processing/build && $(MAKE) -f map_topic_processing/CMakeFiles/map_processing_flip.dir/build.make map_topic_processing/CMakeFiles/map_processing_flip.dir/src/map_processing_flip.cpp.i
+.PHONY : src/map_processing_flip.cpp.i
+
+src/map_processing_flip.s: src/map_processing_flip.cpp.s
+
+.PHONY : src/map_processing_flip.s
+
+# target to generate assembly for a file
+src/map_processing_flip.cpp.s:
+	cd /home/eh420/workspace/catkin_ws_map-processing/build && $(MAKE) -f map_topic_processing/CMakeFiles/map_processing_flip.dir/build.make map_topic_processing/CMakeFiles/map_processing_flip.dir/src/map_processing_flip.cpp.s
+.PHONY : src/map_processing_flip.cpp.s
+
+src/marker_publisher.o: src/marker_publisher.cpp.o
+
+.PHONY : src/marker_publisher.o
+
+# target to build an object file
+src/marker_publisher.cpp.o:
+	cd /home/eh420/workspace/catkin_ws_map-processing/build && $(MAKE) -f map_topic_processing/CMakeFiles/marker_publisher.dir/build.make map_topic_processing/CMakeFiles/marker_publisher.dir/src/marker_publisher.cpp.o
+.PHONY : src/marker_publisher.cpp.o
+
+src/marker_publisher.i: src/marker_publisher.cpp.i
+
+.PHONY : src/marker_publisher.i
+
+# target to preprocess a source file
+src/marker_publisher.cpp.i:
+	cd /home/eh420/workspace/catkin_ws_map-processing/build && $(MAKE) -f map_topic_processing/CMakeFiles/marker_publisher.dir/build.make map_topic_processing/CMakeFiles/marker_publisher.dir/src/marker_publisher.cpp.i
+.PHONY : src/marker_publisher.cpp.i
+
+src/marker_publisher.s: src/marker_publisher.cpp.s
+
+.PHONY : src/marker_publisher.s
+
+# target to generate assembly for a file
+src/marker_publisher.cpp.s:
+	cd /home/eh420/workspace/catkin_ws_map-processing/build && $(MAKE) -f map_topic_processing/CMakeFiles/marker_publisher.dir/build.make map_topic_processing/CMakeFiles/marker_publisher.dir/src/marker_publisher.cpp.s
+.PHONY : src/marker_publisher.cpp.s
+
+src/tracking_processing.o: src/tracking_processing.cpp.o
+
+.PHONY : src/tracking_processing.o
+
+# target to build an object file
+src/tracking_processing.cpp.o:
+	cd /home/eh420/workspace/catkin_ws_map-processing/build && $(MAKE) -f map_topic_processing/CMakeFiles/position_processing.dir/build.make map_topic_processing/CMakeFiles/position_processing.dir/src/tracking_processing.cpp.o
+.PHONY : src/tracking_processing.cpp.o
+
+src/tracking_processing.i: src/tracking_processing.cpp.i
+
+.PHONY : src/tracking_processing.i
+
+# target to preprocess a source file
+src/tracking_processing.cpp.i:
+	cd /home/eh420/workspace/catkin_ws_map-processing/build && $(MAKE) -f map_topic_processing/CMakeFiles/position_processing.dir/build.make map_topic_processing/CMakeFiles/position_processing.dir/src/tracking_processing.cpp.i
+.PHONY : src/tracking_processing.cpp.i
+
+src/tracking_processing.s: src/tracking_processing.cpp.s
+
+.PHONY : src/tracking_processing.s
+
+# target to generate assembly for a file
+src/tracking_processing.cpp.s:
+	cd /home/eh420/workspace/catkin_ws_map-processing/build && $(MAKE) -f map_topic_processing/CMakeFiles/position_processing.dir/build.make map_topic_processing/CMakeFiles/position_processing.dir/src/tracking_processing.cpp.s
+.PHONY : src/tracking_processing.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -632,17 +800,21 @@ help:
 	@echo "... depend"
 	@echo "... install"
 	@echo "... rebuild_cache"
-	@echo "... edit_cache"
 	@echo "... test"
 	@echo "... install/local"
 	@echo "... install/strip"
+	@echo "... edit_cache"
+	@echo "... marker_publisher"
 	@echo "... geometry_msgs_generate_messages_py"
 	@echo "... geometry_msgs_generate_messages_nodejs"
+	@echo "... map_processing_flip"
 	@echo "... std_msgs_generate_messages_py"
+	@echo "... position_processing"
 	@echo "... sensor_msgs_generate_messages_py"
 	@echo "... roscpp_generate_messages_py"
 	@echo "... rosgraph_msgs_generate_messages_eus"
 	@echo "... rosgraph_msgs_generate_messages_nodejs"
+	@echo "... localization"
 	@echo "... image_processing"
 	@echo "... geometry_msgs_generate_messages_eus"
 	@echo "... roscpp_generate_messages_cpp"
@@ -667,9 +839,21 @@ help:
 	@echo "... src/image_processing.o"
 	@echo "... src/image_processing.i"
 	@echo "... src/image_processing.s"
+	@echo "... src/localization.o"
+	@echo "... src/localization.i"
+	@echo "... src/localization.s"
 	@echo "... src/map_processing.o"
 	@echo "... src/map_processing.i"
 	@echo "... src/map_processing.s"
+	@echo "... src/map_processing_flip.o"
+	@echo "... src/map_processing_flip.i"
+	@echo "... src/map_processing_flip.s"
+	@echo "... src/marker_publisher.o"
+	@echo "... src/marker_publisher.i"
+	@echo "... src/marker_publisher.s"
+	@echo "... src/tracking_processing.o"
+	@echo "... src/tracking_processing.i"
+	@echo "... src/tracking_processing.s"
 .PHONY : help
 
 

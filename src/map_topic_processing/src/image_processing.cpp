@@ -25,6 +25,7 @@ int main(int argc, char **argv)
 
   image_transport::ImageTransport it(nh);
   image_transport::Subscriber sub = it.subscribe("l515/color/image_raw", 1, imageCallback);
+  //image_transport::Subscriber sub = it.subscribe("/grid_map_visualization/elevation_grid", 1, imageCallback);
   ros::spin();
   cv::destroyWindow("view");
 }
