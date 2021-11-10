@@ -24,7 +24,7 @@
 using namespace cv;
 using namespace std;
 
-#define FOV 100
+#define FOV 160
 
 geometry_msgs::Pose2D Initial_pose2d;   // 지정받는 초기 위치를 저장
 geometry_msgs::Pose2D Robot_pose;       // 현재 로봇의 위치를 나타낼 좌표
@@ -52,6 +52,8 @@ double map_matching(Mat* global_map, Mat* local_map);
 void mapConvert(const nav_msgs::OccupancyGrid& msg);
 void poseCallback(const nav_msgs::Odometry::ConstPtr& msg);
 void particle_motion_update(geometry_msgs::Pose2D diff_pose);
+void floor_remove(Mat* map, int floor_threshold);
+std::vector<std::vector<double> > resampling(geometry_msgs::PoseArray* particles);
 
 
 cv::Mat input_map;    // 센서로 취득되는 데이터
@@ -60,7 +62,9 @@ cv::Mat global_map;
 
 
 double initial_theta = 0.0;
+double total_weight = 0.0;
 int initial_pose_flag = 0;
+double gaussian = sqrt((-2)*log(0.2*sqrt(2*CV_PI)));
 
 
 int main(int argc, char **argv)
@@ -219,22 +223,91 @@ void mapConvert(const nav_msgs::OccupancyGrid& msg){
           particle_motion_update(diff_pose);
           cam_prev_pose = cam_curr_pose;
         }
+        /// weight를 업데이트하기 전, global map과 local ma에서 바닥정보를 없애주자.
+        floor_remove(&global_map, 120);
+        floor_remove(&output_map, 120);
 
+        // global_map은 2.5차원 Grayscale의 전체 지도, output_map은 취득 데이터
         particle_weight_update(&global_map, &output_map);
-    // 이 부분에 노이즈 제거를 포함시키고 바닥 정보를 제거할 수 있도록 하자
+        samples = resampling(&particles);
+
     }
     catch (cv_bridge::Exception& e){
         ROS_ERROR("Could not convert from");
     }
 }
 
+std::vector<std::vector<double> > resampling(geometry_msgs::PoseArray* particles){
 
+  particles->poses.clear();
+  geometry_msgs::Pose p;
+  tf::Quaternion ori;
+  double random_theta;
+
+  std::vector<std::vector<double> > new_samples;
+
+  for(int i=0; i<samples.size(); i++){
+    double new_weight = (double)rand()*total_weight/(RAND_MAX);
+    int start_pt = 0;
+    double temp_weight = 0.0;
+    while(new_weight >= temp_weight){
+      temp_weight += samples[start_pt][3];
+      start_pt += 1;
+    }
+
+    p.position.x = samples[start_pt][0] + (double)rand()/(RAND_MAX/gaussian)*pow(-1, rand());
+    p.position.y = samples[start_pt][1] + (double)rand()/(RAND_MAX/gaussian)*pow(-1, rand());
+    p.position.z = 0;
+    random_theta = samples[start_pt][2] + ((CV_PI/3)*((double)rand()/RAND_MAX))*pow(-1, rand());
+    ori = tf::createQuaternionFromYaw(random_theta);
+    p.orientation.x = ori[0];
+    p.orientation.y = ori[1];
+    p.orientation.z = ori[2];
+    p.orientation.w = ori[3];
+    particles->poses.push_back(p);
+
+    new_samples.push_back(samples[start_pt]);
+
+    //new_samples.push_back(temp);
+  }
+  return new_samples;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void floor_remove(Mat* map, int floor_threshold){
+  int pixel_data;
+  for(int i=0; i<map->cols; i++){
+    for(int j=0; j<map->rows; j++){
+      pixel_data = map->at<uchar>(j, i);
+      if(pixel_data < floor_threshold)
+        map->at<uchar>(j, i) = 0;
+    }
+  }
+}
 
 
 void particle_weight_update(Mat* global_map, Mat* measured_map){
-  Mat local_map = Mat::zeros(100, 50, CV_8UC1);
+  Mat segment_map = Mat::zeros(100, 50, CV_8UC1);
   double x, y;
   double theta;
+  total_weight = 0;
   for(int i=0; i<samples.size(); i++){
     x = samples[i][0];
     y = samples[i][1];
@@ -243,20 +316,72 @@ void particle_weight_update(Mat* global_map, Mat* measured_map){
     Mat rot = cv::getRotationMatrix2D(cv::Point2f(x, y), theta-(CV_PI/2), 1.0);
     cv::Mat rotate_global_map;
     cv::warpAffine(*global_map, rotate_global_map, rot, Size(global_map->cols, global_map->rows));
-    for(int local_map_i=0; local_map_i<local_map.rows-1; local_map_i++){
-      for(int local_map_j = 0; local_map_j<local_map.cols-1; local_map_j++){
-        int col_value = (local_map.cols/2)-local_map_j;
-        if((atan((double)col_value / (local_map.rows-i)) < (FOV/2)) && (atan((double)col_value/(local_map.rows-i)) > -(FOV/2))){
-          local_map.at<uchar>(local_map_i, local_map_j) = rotate_global_map.at<uchar>(y-local_map.rows+i, x-col_value);
+    for(int segment_map_i=0; segment_map_i<segment_map.rows-1; segment_map_i++){
+      for(int segment_map_j = 0; segment_map_j<segment_map.cols-1; segment_map_j++){
+        int col_value = (segment_map.cols/2)-segment_map_j;
+        if((atan((double)col_value / (segment_map.rows-i)) < (FOV/2)) && (atan((double)col_value/(segment_map.rows-i)) > -(FOV/2))){
+          segment_map.at<uchar>(segment_map_i, segment_map_j) = rotate_global_map.at<uchar>(y-segment_map.rows+i, x-col_value);
         }
         else{
-          local_map.at<uchar>(local_map_i, local_map_j) = 0;
+          segment_map.at<uchar>(segment_map_i, segment_map_j) = 0;
         }
       }
     }
-    samples[i][3] = map_matching(&local_map, measured_map);
+    samples[i][3] = map_matching(&segment_map, measured_map);
+    total_weight += samples[i][3];
   }
 }
+
+
+
+double map_matching(Mat* global_map, Mat* local_map){
+  int width, height;
+  if(global_map->cols > local_map->cols)
+    width = global_map->cols;
+  else
+    width = local_map->cols;
+  
+  if(global_map->rows > local_map->rows)
+    height = global_map->rows;
+  else
+    height = local_map->rows;
+
+  //// template1에는 global 지도의 segment가 들어가고 template2에는 mewsured map이 들어간다.
+  cv::Mat template1 = cv::Mat::zeros(height, width, CV_8UC1);
+  cv::Mat template2 = cv::Mat::zeros(height, width, CV_8UC1);
+  for(int i=0; i<width; i++){
+    for(int j=0; j<height; j++){
+      if((i > global_map->cols) || (j<(height-global_map->rows)))
+        template1.at<uchar>(j, i) = 0;
+      else
+        template1.at<uchar>(j, i) = global_map->at<uchar>(j-(height-global_map->rows), i);
+
+      if((i > local_map->cols) || (j<(height-local_map->rows)))
+        template2.at<uchar>(j, i) = 0;
+      else
+        template2.at<uchar>(j, i) = local_map->at<uchar>(j-(height-local_map->rows), i);
+    }
+  }
+
+  int count = 0;
+  int total_valid_pixel = 0;
+  for(int i=0; i<width; i++){
+    for(int j=0; j<height; j++){
+      if(template2.at<uchar>(j, i) != 0){
+        total_valid_pixel += 1;
+        if(template1.at<uchar>(j, i) != 0){
+          count += 1;
+        }
+      }
+    }
+  }
+  double result = (double)count/total_valid_pixel;
+  return result;
+}
+
+
+
+
 
 
 void particle_motion_update(geometry_msgs::Pose2D diff_pose){
@@ -281,47 +406,6 @@ void particle_motion_update(geometry_msgs::Pose2D diff_pose){
   }
 }
 
-
-double map_matching(Mat* global_map, Mat* local_map){
-  int width, height;
-  if(global_map->cols > local_map->cols)
-    width = global_map->cols;
-  else
-    width = local_map->cols;
-  
-  if(global_map->rows > local_map->rows)
-    height = global_map->rows;
-  else
-    height = local_map->rows;
-
-  cv::Mat template1 = cv::Mat::zeros(height, width, CV_8UC1);
-  cv::Mat template2 = cv::Mat::zeros(height, width, CV_8UC1);
-  for(int i=0; i<width; i++){
-    for(int j=0; j<height; j++){
-      if((i > global_map->cols) || (j<(height-global_map->rows)))
-        template1.at<uchar>(j, i) = 0;
-      else
-        template1.at<uchar>(j, i) = global_map->at<uchar>(j-(height-global_map->rows), i);
-
-      if((i > local_map->cols) || (j<(height-local_map->rows)))
-        template2.at<uchar>(j, i) = 0;
-      else
-        template2.at<uchar>(j, i) = local_map->at<uchar>(j-(height-local_map->rows), i);
-    }
-  }
-
-  int count = 0;
-  for(int i=0; i<width; i++){
-    for(int j=0; j<height; j++){
-      if(template2.at<uchar>(j, i)> 0 && template2.at<uchar>(j, i)<255 && template1.at<uchar>(j, i)>0 &&
-      template1.at<uchar>(j, i)<255){
-        count += 1;
-      }
-    }
-  }
-  double result = count/(local_map->cols * local_map->rows);
-  return result;
-}
 
 
 void get_marker_pose(visualization_msgs::Marker* marker){
@@ -380,7 +464,7 @@ void initialize_particle_update(double x, double y, double theta, geometry_msgs:
     //srand(time(NULL));
     // p.position.x = x + (double)rand()/(RAND_MAX/0.5)*pow(-1, rand());
     // p.position.y = y + (double)rand()/(RAND_MAX/0.5)*pow(-1, rand());
-    double gaussian = sqrt((-2)*log(0.2*sqrt(2*CV_PI)));
+    
     p.position.x = x + (double)rand()/(RAND_MAX/gaussian)*pow(-1, rand());
     p.position.y = y + (double)rand()/(RAND_MAX/gaussian)*pow(-1, rand());
     p.position.z = 0;
